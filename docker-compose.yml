@@ -1,0 +1,21 @@
+
+version: "3"
+
+services:
+  client:
+    build: ./client
+    ports:
+      - 8080:8080
+    volumes:
+      - ./client:/data
+    environment:
+      - API_URL=http://0.0.0.0:8081/
+    image: kovszasz/canasta
+
+  server:
+    build: ./server
+    ports:
+      - 3001:3001
+    volumes:
+      - ./server:/data
+    image: kovszasz/socket
