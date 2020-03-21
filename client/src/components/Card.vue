@@ -75,7 +75,7 @@ export default {
       delay: 700,
       clicks: 0,
       timer: null,
-      socket : io('0.0.0.0:3001'),
+      socket : io('ws://0.0.0.0:3001'),
       width: 100,
       height: 100,
       x: 300,

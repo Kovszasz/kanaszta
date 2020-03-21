@@ -1,21 +1,27 @@
-
 version: "3"
-
 services:
-  client:
-    build: ./client
-    ports:
-      - 8080:8080
-    volumes:
-      - ./client:/data
-    environment:
-      - API_URL=http://0.0.0.0:8081/
-    image: kovszasz/canasta
-
-  server:
-    build: ./server
-    ports:
-      - 3001:3001
-    volumes:
-      - ./server:/data
-    image: kovszasz/socket
+ client:
+   build: .
+   image: kanaszta_client:latest
+   ports:
+     # Service will be accessible on the host at port 9090.
+     - "9090:${PORT:-8080}"
+   environment:
+     # /run/docs/reference/container-contract
+     PORT: ${PORT:-8080}
+     K_SERVICE: kanaszta_client:latest
+     K_REVISION: 0
+     K_CONFIGURATION: kanaszta_client:latest
+ server:
+   build: .
+   image: kanaszta_server:latest
+   container_name: kanasta-server
+   ports:
+     # Service will be accessible on the host at port 9090.
+     - "3001:${PORT:-3001}"
+   environment:
+     # /run/docs/reference/container-contract
+     PORT: ${PORT:-3001}
+     K_SERVICE: kanaszta_server:latest
+     K_REVISION: 0
+     K_CONFIGURATION: kanaszta_server:latest

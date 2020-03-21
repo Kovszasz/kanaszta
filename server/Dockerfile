@@ -1,16 +1,21 @@
-
 FROM node:carbon
 
-COPY ./docker/entrypoint.sh /entrypoint/
+# Create app directory
+WORKDIR /app
 
-RUN ["chmod", "+x", "entrypoint/entrypoint.sh"]
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
-# Copy or mount node app here
-WORKDIR /data/
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
 
-EXPOSE 8081
+# Bundle app source
+COPY . .
+ENV PORT 3001
 
-ENTRYPOINT ["/entrypoint/entrypoint.sh"]
 
-CMD ["npm", "run","serve"]
-
+EXPOSE 3001
+CMD [ "npm", "run","serve"]

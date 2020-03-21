@@ -22,15 +22,15 @@ data(){
     return {
       deck:[],
       cards:[],
-      socket : io('0.0.0.0:3001'),
-      zindex:104
+      socket : io('ws://0.0.0.0:3001'),
+      zindex:108
     }
   },
   mounted() {
         this.socket.on('deck_mixed', (data) => {
             if(this.deck.length==0){
                 this.deck=data
-            
+            console.log(data)
             for(var i=0;i<this.deck.length;i++){
               this.cards.push({id:this.deck[i],zindex:i})
             }

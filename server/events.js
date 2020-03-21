@@ -1,11 +1,11 @@
 'use strict';
-
+var jQuery = require('jquery')
 var types =["C","D","H","S"]
 var deck_=["","2"]
 var values=["2","3","4","5","6","7","8","9","10","J","K","A","Q"]
 
 function deck(){
-    var arra1=[]
+    var arra1=["J1","J2","J3","J4"]
     for(var i=0;i<types.length;i++){
         for(var j=0;j<13;j++){
           for(var k=0;k<2;k++){
@@ -29,25 +29,44 @@ var mixed_deck = deck()
 
 
 class Events {
-  constructor(io){
+  constructor(io,mixed_deck){
     this.io = io;
     this.users = {};
     this.user_list=new Set();
+    this.mixed_deck=mixed_deck
   }
 
+  empty(obj){
+    for(var prop in obj) {
+      if(obj.hasOwnProperty(prop)) {
+        return false;
+      }
+    }
+  
+    return JSON.stringify(obj) === JSON.stringify({});
+  }
   socketEvents(io) {
+    console.log("RUNNINGG!!!")
     io.on('connection', (socket) => {
       socket.on('connected', (user) => {
         this.users[socket.id] = user;
         this.user_list.add(user.name)
         console.log(this.user_list.size)
-        socket.broadcast.emit('users', {user:this.user_list,size:this.user_list.size});
-        io.emit('users', {user:this.user_list,size:this.user_list.size});
+        socket.broadcast.emit('users', {userO:this.users,user:this.user_list,size:this.user_list.size});
+        io.emit('users', {userO:this.users,user:this.user_list,size:this.user_list.size});
         console.log(this.user_list)
       });
 
       socket.on('disconnect', () => {
+        var ref = {}
         delete this.users[socket.id];
+        console.log(this.users)
+        //console.log(this.user_list)
+        console.log(typeof this.users)
+        if(this.empty(this.users)){
+          mixed_deck=deck()
+          io.emit('deck_mixed',mixed_deck)
+        }
         socket.broadcast.emit('users', this.user_list);
         socket.emit('users',this.user_list)
       });

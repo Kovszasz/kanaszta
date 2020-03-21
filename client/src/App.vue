@@ -46,7 +46,7 @@ export default {
     created() {
     this.user.name = prompt('Please enter your username:', '');
     if (this.user.name) {
-      this.socket = io('http://0.0.0.0:3001');
+      this.socket =io('ws://0.0.0.0:3001')
       this.socket.on('connect', () => {
         this.connect();
       });
@@ -54,7 +54,7 @@ export default {
     },
     mounted(){
     this.socket.on('users',(data)=>{
-      this.users=data.user
+      this.users=data.userO
       if(data.size==1){
         console.log("we're here")
       //  if(!this.players_set){

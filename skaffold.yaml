@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2alpha4
+kind: Config
+metadata:
+  name: kanaszta
+build:
+  artifacts:
+  - image: gcr.io/tribal-booth-155221/kanaszta-client
+    context: client
+  - image: gcr.io/tribal-booth-155221/kanaszta-server
+    context: server
+deploy:
+  kubectl:
+    manifests:
+    - client.yaml
+    #- server.yaml
