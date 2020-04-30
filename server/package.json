@@ -14,7 +14,7 @@
     "@google-cloud/storage": "^4.6.0",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "less": "^3.11.1",
     "nodemon": "^2.0.2",
     "socket.io": "^2.3.0",
